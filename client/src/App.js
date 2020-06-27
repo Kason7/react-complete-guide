@@ -6,6 +6,7 @@ import './App.css';
 
 // IMport components
 import Person from './Person/Person';
+import ErrorBoundary from './ErrorBoundary/ErrorBoundary';
 
 import './Person/Person.css';
 
@@ -160,13 +161,14 @@ const App = () => {
         {personsState.showPersons ? (
           <div>
             {personsState.persons.map((person, index) => (
-              <Person
-                name={person.name}
-                age={person.age}
-                key={index}
-                delete={() => deletePersonHandler(index)}
-                changed={(event) => nameChangedHandler(event, person.id)}
-              />
+              <ErrorBoundary key={index}>
+                <Person
+                  name={person.name}
+                  age={person.age}
+                  delete={() => deletePersonHandler(index)}
+                  changed={(event) => nameChangedHandler(event, person.id)}
+                />
+              </ErrorBoundary>
             ))}
           </div>
         ) : null}
