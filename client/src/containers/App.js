@@ -3,30 +3,13 @@ import Radium, { StyleRoot } from 'radium';
 
 // Import styling
 import './App.css';
+import initialStyles from '../components/Cockpit/initialStyles';
 
-// IMport components
-import Person from './Person/Person';
-import ErrorBoundary from './ErrorBoundary/ErrorBoundary';
-
-import './Person/Person.css';
+// Import components
+import Persons from '../components/Persons/Persons';
+import Cockpit from '../components/Cockpit/Cockpit';
 
 const App = () => {
-  const initialStyles = {
-    backgroundColor: 'green',
-    color: 'white',
-    font: 'inherit',
-    border: '1px solid blue',
-    padding: '8px',
-    cursor: 'pointer',
-    ':hover': {
-      backgroundColor: 'lightgreen',
-      color: 'black',
-    },
-    ':focus': {
-      outline: 'none',
-    },
-  };
-
   const [personsState, setPersonsState] = useState({
     persons: [
       { id: '1', name: 'Max', age: 28 },
@@ -82,16 +65,6 @@ const App = () => {
     const doesShow = personsState.showPersons;
     const buttonStyles = personsState.buttonStyles;
 
-    console.log(buttonStyles);
-    console.log(initialStyles);
-    /*
-    if (!doesShow) {
-      styles.push('redBackground');
-    }
-    if (doesShow) {
-      styles.push('greenBackground');
-    }*/
-
     const styles = {
       backgroundColor: 'red',
       color: 'white',
@@ -115,61 +88,22 @@ const App = () => {
     });
   };
 
-  const style = {
-    color: 'white',
-    font: 'inherit',
-    border: '1px solid blue',
-    padding: '8px',
-    cursor: 'pointer',
-    ':hover': {
-      backgroundColor: 'lightgreen',
-      color: 'black',
-    },
-  };
-
-  /* const myFunction = () => {
-    const doesShow = personsState.showPersons;
-    if (doesShow) {
-      style.backgroundColor = 'red';
-    }
-
-    const classes = [...personsState.classes];
-    const nameLength = personsState.persons.length;
-    if (nameLength <= 2) {
-      classes.push('red');
-    }
-    if (nameLength <= 1) {
-      classes.push('bold');
-    }
-
-    console.log(nameLength);
-    console.log(classes);
-  }; */
-
   return (
     <StyleRoot>
       <div className='App'>
-        <h1>Hi I am a React App</h1>
-
-        <p className={personsState.classes.subtitle}>This is really working!</p>
-        <button
-          style={personsState.buttonStyles}
-          onClick={togglePersonsHandler}
-        >
-          Switch name
-        </button>
+        <Cockpit
+          togglePersonsHandler={togglePersonsHandler}
+          personsState={personsState}
+        />
         {personsState.showPersons ? (
           <div>
-            {personsState.persons.map((person, index) => (
-              <ErrorBoundary key={index}>
-                <Person
-                  name={person.name}
-                  age={person.age}
-                  delete={() => deletePersonHandler(index)}
-                  changed={(event) => nameChangedHandler(event, person.id)}
-                />
-              </ErrorBoundary>
-            ))}
+            {
+              <Persons
+                persons={personsState.persons}
+                delete={deletePersonHandler}
+                changed={nameChangedHandler}
+              />
+            }
           </div>
         ) : null}
       </div>

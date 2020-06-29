@@ -1,6 +1,9 @@
 import React, { children } from 'react';
 import Radium from 'radium';
 
+// Import styling
+import './Person.css';
+
 export const Person = (props) => {
   const style = {
     '@media (min-width: 500px)': {
