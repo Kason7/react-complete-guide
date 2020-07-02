@@ -1,9 +1,9 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 
 export const Cockpit = (props) => {
   return (
     <div>
-      <h1>Hi I am a React App</h1>
+      <h1>{props.appTitle}</h1>
       <p className={props.personsState.classes.subtitle}>
         This is really working!
       </p>

@@ -9,7 +9,7 @@ import initialStyles from '../components/Cockpit/initialStyles';
 import Persons from '../components/Persons/Persons';
 import Cockpit from '../components/Cockpit/Cockpit';
 
-const App = () => {
+const App = (props) => {
   const [personsState, setPersonsState] = useState({
     persons: [
       { id: '1', name: 'Max', age: 28 },
@@ -92,6 +92,7 @@ const App = () => {
     <StyleRoot>
       <div className='App'>
         <Cockpit
+          appTitle={props.appTitle}
           togglePersonsHandler={togglePersonsHandler}
           personsState={personsState}
         />
