@@ -9,6 +9,9 @@ import initialStyles from '../components/Cockpit/initialStyles';
 import Persons from '../components/Persons/Persons';
 import Cockpit from '../components/Cockpit/Cockpit';
 
+// Import context props
+import AuthContext from '../context/auth-context';
+
 const App = (props) => {
   const [personsState, setPersonsState] = useState({
     persons: [
@@ -21,6 +24,7 @@ const App = (props) => {
       subtitle: ['subtitle'],
     },
     buttonStyles: initialStyles,
+    isAuthenticated: false,
   });
 
   // Delete person handler
@@ -32,8 +36,7 @@ const App = (props) => {
     const styles = [personsState.classes.subtitle];
 
     const nameLength = persons.length;
-    console.log(styles);
-    console.log(nameLength);
+
     if (nameLength === 2) {
       styles.push('red');
     }
@@ -88,26 +91,43 @@ const App = (props) => {
     });
   };
 
+  // Toogle login handler
+  const loginHandler = () => {
+    const isAuthenticated = personsState.isAuthenticated;
+    setPersonsState({
+      ...personsState,
+      isAuthenticated: true,
+    });
+    console.log(isAuthenticated);
+  };
+
   return (
     <StyleRoot>
-      <div className='App'>
-        <Cockpit
-          appTitle={props.appTitle}
-          togglePersonsHandler={togglePersonsHandler}
-          personsState={personsState}
-        />
-        {personsState.showPersons ? (
-          <div>
-            {
-              <Persons
-                persons={personsState.persons}
-                delete={deletePersonHandler}
-                changed={nameChangedHandler}
-              />
-            }
-          </div>
-        ) : null}
-      </div>
+      <AuthContext.Provider
+        value={{
+          authenticated: personsState.isAuthenticated,
+          login: loginHandler,
+        }}
+      >
+        <div className='App'>
+          <Cockpit
+            appTitle={props.appTitle}
+            togglePersonsHandler={togglePersonsHandler}
+            personsState={personsState}
+          />
+          {personsState.showPersons ? (
+            <div>
+              {
+                <Persons
+                  persons={personsState.persons}
+                  delete={deletePersonHandler}
+                  changed={nameChangedHandler}
+                />
+              }
+            </div>
+          ) : null}
+        </div>
+      </AuthContext.Provider>
     </StyleRoot>
   );
 };

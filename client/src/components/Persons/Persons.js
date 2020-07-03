@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 
 // Import components
 import Person from './Person/Person';
@@ -15,5 +16,12 @@ export const Persons = (props) =>
       />
     </ErrorBoundary>
   ));
+
+Person.propTypes = {
+  delete: PropTypes.func,
+  age: PropTypes.number,
+  changed: PropTypes.func,
+  name: PropTypes.string,
+};
 
 export default Persons;
